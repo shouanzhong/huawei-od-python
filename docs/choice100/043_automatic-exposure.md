@@ -61,7 +61,7 @@
 3. 返回`k`值。
 
 ## 解题代码
-
+*方法一*
 ```python
 def solve_method(img):
     avg = sum(img) // len(img)
@@ -90,4 +90,20 @@ def get_new_image_avg(new_img, k):
 if __name__ == '__main__':
     assert solve_method([0, 0, 0, 0]) == 128
     assert solve_method([129, 130, 129, 130]) == -2
+```
+
+*方法二*
+```python
+import math
+s = '''129 130 129 130'''
+vals = s.split()
+
+vals = list(map(int, vals))
+# print(vals)
+
+avrg = sum(vals) / len(vals)
+# print(avrg)
+k = math.floor(128 - avrg)
+
+print(k)
 ```
