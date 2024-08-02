@@ -102,7 +102,7 @@ $$
 4. 返回每个用户的优惠价格和使用券的数量。
 
 ## 解题代码
-
+*代码一* 
 ```python
 def full_discount(res, ticket):
     """
@@ -212,4 +212,57 @@ def solve_method(t1, t2, t3, prices):
         result.append([res, tickets_res])
 
     return result
+```
+---
+*代码二* 
+```python
+lines = s.splitlines()
+l1 = list(map(int, lines[0].split()))
+tickets_counts = dict(zip(("满减", "打折", "无门槛"), l1))
+tickets_used = dict(zip(("满减", "打折", "无门槛"), (
+    lambda x: min((x // 100), tickets_counts["满减"]),
+    lambda x: 1,
+    lambda x: tickets_counts["无门槛"]
+)))
+tickets_func = dict(zip(("满减", "打折", "无门槛"), (
+    lambda x: x - 10 * min((x // 100), tickets_counts["满减"]),
+    lambda x: x * 0.92,
+    lambda x: x - tickets_counts["无门槛"] * 5
+)))
+
+
+people_count = int(lines[1])
+
+prices_list = [int(i) for i in lines[2:]]
+
+
+print(tickets_counts)
+print(prices_list)
+
+# 所有可用组合
+import itertools
+available_methods = list(itertools.permutations(tickets_counts.keys(), 2))
+
+print(available_methods)
+
+res = []
+for price in prices_list:
+    min_val = float("inf")
+    used_count = 0
+    for method in available_methods:
+        print(method)
+        p1 = price
+        t_used_count = 0
+        for key in method:
+            t_used_count += tickets_used[key](p1)
+            p1 = tickets_func[key](p1)
+
+        if min_val > p1:
+            min_val = p1
+            used_count = t_used_count
+
+        print("结果：", p1, "票数", used_count)
+    print(min_val)
+    res.append((min_val, used_count))
+print(res)
 ```
