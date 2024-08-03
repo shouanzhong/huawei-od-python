@@ -79,48 +79,18 @@ AAAA
 
 ## 解题代码
 
+*方法二*
 ```python
-import math
-from collections import Counter
+s = \
+'''AAAA'''
+alist = list(s)
+print(alist)
+length = len(alist)
 
-
-def check(changed_map):
-    return all(map(lambda x: False if x > 0 else True, changed_map.values()))
-
-
-def solve_method(ops):
-    chars = {'A': 0, 'S': 0, 'W': 0, 'D': 0}
-    length = len(ops)
-    count = length // 4
-    # 保留缺失的字符
-    chars.update(dict(Counter(ops)))
-    for k, v in chars.items():
-        chars[k] = v - count
-
-    result = math.inf
-    for i in range(len(ops)):
-        c1 = ops[i]
-        res = 0
-        changed = chars.copy()
-        # 判断当前字符是否多出来
-        if changed[c1] > 0:
-            # 持续更换字符，统计更换次数
-            for j in range(i, length):
-                c2 = ops[j]
-                changed[c2] -= 1
-                res += 1
-                # 检查所有的字符频数是否都为0
-                if check(changed):
-                    break
-        if check(changed):
-            result = min(result, res)
-
-    return result
-
-
-if __name__ == '__main__':
-    assert solve_method("ASDW") == 0
-    assert solve_method("AASW") == 1
-    assert solve_method("AAAA") == 3
-    assert solve_method("AAADDWWW") == 4
+target_length = length // 4
+d_dict = {digist: alist.count(digist) for digist in "AWSD"}
+print(d_dict)
+diff_dict = {k: v - target_length for k, v in d_dict.items()}
+print(diff_dict)
+print(sum(val for val in diff_dict.values() if val > 0))
 ```
