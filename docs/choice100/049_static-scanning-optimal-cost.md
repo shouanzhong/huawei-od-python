@@ -71,6 +71,38 @@
 4. 返回结果值。   
 
 ## 解题代码
+*方法二*
+```python
+s = '''5
+1 2 2 1 2 3 4
+1 1 1 1 1 1 1'''
+
+lines = s.splitlines()
+cache_price = int(lines[0])
+file_id = list(map(int, lines[1].split()))
+file_size = list(map(int, lines[2].split()))
+
+id_size_dict = dict(zip(file_id, file_size))
+
+id_count_dict = {k: file_id.count(k) * v for k,v in id_size_dict.items()}
+
+# print(id_size_dict)
+# print(len(file_id))
+# print("id_count_dict", id_count_dict)
+
+# 当文件重复数量大于 缓存花费时，缓存
+res = 0
+for id, count in id_count_dict.items():
+    if count > cache_price:
+        # 缓存
+        res += cache_price
+        res += id_size_dict[id]
+    else:
+        res += count
+print(res)
+```
+---
+*方法一*
 
 ```python
 from collections import defaultdict
