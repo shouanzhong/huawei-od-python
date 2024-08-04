@@ -61,6 +61,25 @@
 
 ## 解题代码
 
+*方法二*
+```python
+s = '''1 2 2 4 2 1 1'''
+a = list(map(int, s.split()))
+# print(a)
+
+max_len = 0
+res = [0] * len(a)
+for i, val in enumerate(a):
+    # print(i)
+    if i < 1 or val == i:
+        res[i] = 0
+    else:
+        if val != i:
+            res[i] = res[i-1] + 1
+            max_len = max(max_len, res[i])
+print(max_len)
+```
+
 ```python
 import math
 from collections import defaultdict
